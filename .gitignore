@@ -1,0 +1,3 @@
+# Ignore Vagrant-related files
+.vagrant/
+*.box

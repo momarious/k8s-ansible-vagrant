@@ -1,0 +1,35 @@
+# to use "registry.k8s.io/pause:3.9" as the CRI sandbox image.
+
+- name: Initialize Kubernetes cluster
+  shell: |
+    sudo kubeadm init --apiserver-advertise-address=192.168.56.10 --apiserver-cert-extra-sans=192.168.56.10 --node-name=master --pod-network-cidr=192.168.0.0/16
+
+#
+- name: Copy kubeconfig for vagrant user
+  shell: |
+    mkdir -p /home/vagrant/.kube
+    cp /etc/kubernetes/admin.conf /home/vagrant/.kube/config
+    chown vagrant:vagrant /home/vagrant/.kube/config
+
+- name: Install Calico network plugin
+  shell: |
+    kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+
+# mkdir -p /home/vagrant/.kube
+# sudo cp -i /home/username/admin.conf $HOME/.kube/config
+# sudo chown $(id -u):$(id -g) $HOME/.kube/config
+# kubectl get node
+
+# curl -k https://192.168.56.10:6443/version
+
+# sudo hostnamectl set-hostname master
+# 127.0.0.1 master
+# 192.168.56.10 master
+# 192.168.56.11 worker-1
+
+# 127.0.0.1 worker-1
+# 192.168.56.10 master
+# 192.168.56.11 worker-1
+# sudo hostnamectl set-hostname worker-1
+
+# sudo kubeadm init --control-plane-endpoint=master --upload-certs
